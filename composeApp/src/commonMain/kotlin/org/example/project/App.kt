@@ -46,6 +46,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.window.Dialog
 import kotlinx.coroutines.delay
 import org.example.project.ui.theme.*
@@ -117,7 +118,6 @@ fun MusicPadScreen(){
         BottomControls(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .fillMaxWidth()
                 .padding(bottom = 20.dp)
         )
 
@@ -156,15 +156,30 @@ fun TopBar()
 {
     Row(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
     ){
         IconButton({}) {
             Icon(Icons.Default.PlayArrow, contentDescription = null, tint = Color.White)
         }
-
+        Box(
+            modifier = Modifier
+                .background(Color.DarkGray, RoundedCornerShape(8.dp))
+                .padding(horizontal = 12.dp, vertical = 6.dp),
+        ) {
+            Text(
+                text = "00:00:00",
+                color = Color.White,
+                fontWeight = FontWeight.Medium
+            )
+        }
         Row {
             IconButton({}) { Icon(Icons.Default.Mic, null, tint = Color.White) }
-            IconButton({}) { Icon(Icons.Default.MusicNote, null, tint = Color.White) }
+            IconButton({}) { Icon(
+                imageVector = Icons.Default.Speed,
+                contentDescription = "Metronome",
+                tint = Color.White
+            ) }
             IconButton({}) { Icon(Icons.Default.VolumeUp, null, tint = Color.White) }
             IconButton({}) { Icon(Icons.Default.Menu, null, tint = Color.White) }
         }
@@ -295,9 +310,8 @@ fun BottomControls(modifier: Modifier = Modifier) {
 
         Row(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 16.dp),
-            horizontalArrangement = Arrangement.SpaceEvenly
+                .padding(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(32.dp)
         ) {
 
             Icon(Icons.Default.GraphicEq, null, tint = Color.White)
