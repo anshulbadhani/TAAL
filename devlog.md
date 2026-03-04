@@ -82,7 +82,7 @@ After a final run of the desktop version of the app we will be able to give up o
 
 ## Devlog #3
 
-"03-03-2026" ~by [Tanishq Pandey](https://github.com/Tanishq172006)
+*03-03-2026* ~by [Tanishq Pandey](https://github.com/Tanishq172006)
 
 Welcome back to our devlog! Today focused on strengthening functionality, fixing cross-platform issues, and making the app more dynamic and stable. The progress made by each were:
 
@@ -106,7 +106,7 @@ Happy Holi to whoever is reading this :)
 ## Devlog #4
 *04-03-2026* ~by [Ananya Tiwari](https://www.github.com/ananyatiwari05)
 
-Happy Holi<3. Today was a mix of colors and code. We did play Holi (priorities balanced 😋), but we also pushed forward on some core architectural and feature research for our music-making app.
+Happy Holi<3. Today was a mix of colors and code. We did play Holi (priorities balanced 😋), but we also pushed forward on some core architectural and feature research for our app.
 
 - [Tanishq](https://github.com/Tanishq172006) Added the canvas and optimized its behavior across platforms. Implemented tiles system and introduced a long-press feature on piano tiles which opens a dedicated piano UI. Added persistance throughout the OS's.
 - [Ananya](https://github.com/ananyatiwari05) Researched the Brush feature inspired by FL Studio’s piano roll workflow. Explored grid generation logic and piano roll grid structuring for better note placement precision.
