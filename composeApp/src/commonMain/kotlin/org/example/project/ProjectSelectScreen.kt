@@ -22,7 +22,6 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.MenuBook
 
-// Use these if you haven't moved them to Color.kt yet
 private val BackgroundColor = Color(0xFF121212)
 private val CardColor = Color(0xFF333333)
 private val ContentIconColor = Color(0xFF121212)
@@ -41,7 +40,7 @@ fun ProjectSelectionScreen(
 
         Column(modifier = Modifier.fillMaxSize()) {
 
-            // Added Top Back Button
+
             IconButton(
                 onClick = onNavigateBack,
                 modifier = Modifier.padding(16.dp)
@@ -49,7 +48,7 @@ fun ProjectSelectionScreen(
                 Icon(Icons.Default.ArrowBack, contentDescription = "Back", tint = Color.White)
             }
 
-            // Main Content Area
+
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -64,7 +63,7 @@ fun ProjectSelectionScreen(
                         horizontalArrangement = Arrangement.SpaceEvenly,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        // Pass the navigation to New Project
+
                         ProjectItemCard("New Project", onClick = onNavigateToMusic) { PlusGraphic() }
                         ProjectItemCard("Open Project", onClick = { /* TODO: Implement later */ }) { BookGraphic() }
                     }
@@ -73,7 +72,7 @@ fun ProjectSelectionScreen(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.spacedBy(40.dp)
                     ) {
-                        // Pass the navigation to New Project
+
                         ProjectItemCard("New Project", onClick = onNavigateToMusic) { PlusGraphic() }
                         ProjectItemCard("Open Project", onClick = { /* TODO: Implement later */ }) { BookGraphic() }
                     }
@@ -85,7 +84,7 @@ fun ProjectSelectionScreen(
 
 @Composable
 fun ProjectItemCard(label: String, onClick: () -> Unit, icon: @Composable () -> Unit) {
-    // Added Modifier.clickable so the whole block registers the tap
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.clickable { onClick() }
@@ -131,7 +130,7 @@ fun BookGraphic() {
 @Composable
 fun ProjectSelectionPreview() {
     MaterialTheme {
-        // Pass empty lambdas so the preview renders properly
+
         ProjectSelectionScreen(
             onNavigateToMusic = {},
             onNavigateBack = {}

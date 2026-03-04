@@ -39,7 +39,7 @@ fun StandardsScreen(onNavigateToProjects: () -> Unit) {
     ) {
         val isLandscape = maxWidth > maxHeight
 
-        // Centrally aligned vertically
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -81,7 +81,7 @@ fun StandardsScreen(onNavigateToProjects: () -> Unit) {
 
 @Composable
 fun StandardButton(label: String, level: Int, onClick: () -> Unit) {
-    // Added Modifier.clickable here so the entire item registers the tap
+
     Column(
         modifier = Modifier.clickable { onClick() },
         horizontalAlignment = Alignment.CenterHorizontally
@@ -92,7 +92,7 @@ fun StandardButton(label: String, level: Int, onClick: () -> Unit) {
                 .background(CardBackground, RoundedCornerShape(12.dp)),
             contentAlignment = Alignment.Center
         ) {
-            // Pass the level (1, 2, or 3) directly to the icon
+
             StandardIcon(fillCount = level)
         }
 
@@ -116,11 +116,11 @@ fun StandardIcon(fillCount: Int) {
         val cornerRadius = 15.dp.toPx()
         val strokeWidth = 2.dp.toPx()
 
-        // Helper to decide if a part is "filled" or "hollow"
+
         fun getFillColor(index: Int) = if (index <= fillCount) IconColor else Color.Transparent
         fun getOutlineColor(index: Int) = if (index <= fillCount) IconColor else Color.Black
 
-        // --- LEFT SHAPE (Index 1) ---
+
         val leftPath = Path().apply {
             addRoundRect(
                 RoundRect(
@@ -130,19 +130,19 @@ fun StandardIcon(fillCount: Int) {
                 )
             )
         }
-        // Draw Fill
+
         drawPath(path = leftPath, color = getFillColor(1))
-        // Draw Outline
+
         drawPath(path = leftPath, color = getOutlineColor(1), style = Stroke(strokeWidth))
 
-        // --- MIDDLE SQUARE (Index 2) ---
+
         val middleRect = Rect(Offset(itemWidth + spacing, topOffset), Size(itemWidth, itemHeight))
-        // Draw Fill
+
         drawRect(color = getFillColor(2), topLeft = middleRect.topLeft, size = middleRect.size)
-        // Draw Outline
+
         drawRect(color = getOutlineColor(2), topLeft = middleRect.topLeft, size = middleRect.size, style = Stroke(strokeWidth))
 
-        // --- RIGHT SHAPE (Index 3) ---
+
         val rightPath = Path().apply {
             addRoundRect(
                 RoundRect(
@@ -152,9 +152,9 @@ fun StandardIcon(fillCount: Int) {
                 )
             )
         }
-        // Draw Fill
+
         drawPath(path = rightPath, color = getFillColor(3))
-        // Draw Outline
+
         drawPath(path = rightPath, color = getOutlineColor(3), style = Stroke(strokeWidth))
     }
 }
@@ -162,6 +162,6 @@ fun StandardIcon(fillCount: Int) {
 @Preview
 @Composable
 fun StandardsPreview() {
-    // Passed an empty lambda so the preview builds successfully
+
     StandardsScreen(onNavigateToProjects = {})
 }

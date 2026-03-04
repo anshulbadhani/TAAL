@@ -1,5 +1,6 @@
 package org.example.project
 
+import PianoRollEditor
 import TileViewModel
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -38,19 +39,24 @@ import org.jetbrains.compose.resources.painterResource
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.window.Dialog
+import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.delay
 import org.example.project.ui.theme.*
+import androidx.lifecycle.viewmodel.compose.viewModel
 
-// --- 1. THE MAIN APP SWITCHER ---
+
 @Composable
 @Preview
 fun App() {
 
-    var currentScreen by remember { mutableStateOf("standards") }
+    var currentScreen by rememberSaveable { mutableStateOf("standards") }
+    val beatEditorState = rememberBeatEditorState()
+
 
     MaterialTheme {
 
@@ -71,6 +77,7 @@ fun App() {
             "music_pad" -> {
 
                 MusicPadScreen(
+                    state = beatEditorState,
                     onNavigateBack = { currentScreen = "projects" }
                 )
             }
@@ -80,11 +87,19 @@ fun App() {
 
 
 @Composable
-fun MusicPadScreen(onNavigateBack: () -> Unit) {
-    val viewModel = remember { TileViewModel() }
+fun MusicPadScreen(
+    state: BeatEditorState,
+    onNavigateBack: () -> Unit
+) {
+
+
+    val tileViewModel = remember { TileViewModel() }
+
     var isEditorMode by remember { mutableStateOf(false) }
 
     var showBeatSelector by remember { mutableStateOf(false) }
+    var showPianoEditor by remember { mutableStateOf(false) }
+
     var selectedCategory by remember { mutableStateOf<String?>(null) }
     var selectedTile by remember { mutableStateOf<Tile?>(null) }
 
@@ -114,20 +129,30 @@ fun MusicPadScreen(onNavigateBack: () -> Unit) {
 
             Spacer(Modifier.height(16.dp))
 
-            if (!isEditorMode) {
+            if (isEditorMode) {
+
                 SoundGrid(
-                    categories = viewModel.categories,
+                    categories = tileViewModel.categories,
                     audioPlayer = audioPlayer,
                     modifier = Modifier.weight(1f),
                     onLongPress = { categoryTitle, tile ->
+
                         selectedCategory = categoryTitle
                         selectedTile = tile
-                        showBeatSelector = true
+
+                        if (tile.instrument.name == "piano") {
+                            showPianoEditor = true
+                        } else {
+                            showBeatSelector = true
+                        }
                     }
                 )
+
             } else {
+
                 BeatEditorScreen(
-                    categories = viewModel.categories,
+                    categories = tileViewModel.categories,
+                    state = state,
                     modifier = Modifier.weight(1f)
                 )
             }
@@ -147,7 +172,7 @@ fun MusicPadScreen(onNavigateBack: () -> Unit) {
                     beats = beats,
                     audioPlayer = audioPlayer,
                     onSaveToTile = { beat ->
-                        viewModel.assignBeat(
+                        tileViewModel.assignBeat(
                             selectedCategory!!,
                             selectedTile!!.id,
                             beat
@@ -155,7 +180,7 @@ fun MusicPadScreen(onNavigateBack: () -> Unit) {
                         showBeatSelector = false
                     },
                     onCreateNewTile = { beat ->
-                        viewModel.addTile(
+                        tileViewModel.addTile(
                             selectedCategory!!,
                             selectedTile!!,
                             beat
@@ -163,6 +188,15 @@ fun MusicPadScreen(onNavigateBack: () -> Unit) {
                         showBeatSelector = false
                     },
                     onDismiss = { showBeatSelector = false }
+                )
+            }
+        }
+
+        if (showPianoEditor && selectedTile != null) {
+            Dialog(onDismissRequest = { showPianoEditor = false }) {
+
+                PianoRollEditor(
+                    onClose = { showPianoEditor = false }
                 )
             }
         }
@@ -177,7 +211,7 @@ fun TopBar(onBackClick: () -> Unit) {
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ){
-        // Changed this to a back arrow and hooked up the click
+
         IconButton(onClick = onBackClick) {
             Icon(Icons.Default.ArrowBack, contentDescription = "Back", tint = Color.White)
         }
