@@ -120,3 +120,54 @@ For tomorrow. We plan to:
 - [Lavanya](https://www.github.com/Lavanya24R) Begin implementing Room database in the actual app structure.
 
 Colorful and productive day ,, tataaa >.< 
+
+## Devlogs #5
+*05-03-2026* ~by [Anshul Badhani](https://www.github.com/anshulbadhani)
+> What one programmer can do in one month, two programmers can do in two months.
+– Fred Brooks
+
+Thank god, four of us run on separate threads XD.
+
+ After an amazing Holi yesterday. We started the day by discussing more cool ideas for the project. Sharing [reels](https://www.instagram.com/reel/DU-caowEplr/) for inspiration. We were really excited seeing that. Our excitement went through the roof, when [Tanishq](https://github.com/Tanishq172006) shared the UI skeleton of drum beat editor, where we can make the drum beat however we want to and use it. In the meantime [Lavanya](https://www.github.com/Lavanya24R) while battling with storage issues on her machine ;) set up SQLDelight, added it's plugins and dependencies and made the `beats.sq` file for queries. [Anshul](https://www.github.com/anshulbadhani) finally found the perfect tool to make an Audio Engine for our purpose. Made a C wrapper around it and tried to expose it via JNI. And [Ananya](https://github.com/ananyatiwari05) figured about the firebase db for authentication and cloud storage and sqlite for local storage and how to modify it to make it compatible for multiplatform.
+
+That's too much work for a single day by our team. 
+#### Here is a quick summary of what we did:
+- [Tanishq](https://github.com/Tanishq172006)
+    - Added the import button in the dialog box.
+    - Made the pipeline for all the mains.
+    - Made the drum beat editor where you can make a drum beat according to you and edit it.
+    - Made the UI and waveform for the beateditor for the canvas screen.
+    - Updated the audioplayer block for all so that it works flexibly.
+- [Lavanya](https://www.github.com/Lavanya24R)
+    - SQLDelight set up along with it's plugins and dependencies.
+    - Made the `beats.sq` file.
+    - Linked it with the UI.
+    - Wrote some tests.
+- [Anshul](https://www.github.com/anshulbadhani)
+    - Testing of [mackron/miniaudio](https://github.com/mackron/miniaudio) for our purposes.
+    - Setting up of gradle files for NDK and CMake.
+    - Wrote a simple C wrapper for using it with Kotlin via JNI.
+- [Ananya](https://github.com/ananyatiwari05)
+    - Studied about Firebase DB Auth for cloud storage.
+    - And SQLite for offline storage as a fallback option for users.
+    - How to make that work on multiple platforms with similar consistency.
+
+#### For tomorrow
+- [Tanishq](https://github.com/Tanishq172006)
+    - Adding of save tile feature. (He already did that as of writing this)
+    - Update the piano dialogbox and will make the UI for others.
+    - Fix the import thing across platforms.
+    - Research on how we can edit audio.
+    - Make the canvas screen audio editor working using `ffmpeg` and generate realtime audios and edit it
+
+- [Lavanya](https://www.github.com/Lavanya24R) will make the kotlin file and connect it to the ui and do its testing
+- [Ananya](https://github.com/ananyatiwari05) will start implementing the firebase thing to our app and make a profile option for the same with settings and different options
+- [Anshul](https://www.github.com/anshulbadhani) will link the audioengine with UI and implement advanced audio editing features.
+
+Here is a video of our application till now:
+
+https://github.com/user-attachments/assets/a14a79d8-fedf-42d6-bb51-016aab62aaf2
+
+Byeee ><<3
+
+
