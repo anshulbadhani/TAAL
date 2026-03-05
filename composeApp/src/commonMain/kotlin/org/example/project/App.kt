@@ -48,6 +48,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.delay
 import org.example.project.ui.theme.*
 import androidx.lifecycle.viewmodel.compose.viewModel
+import kotlin.time.Clock
 
 
 @Composable
@@ -56,6 +57,8 @@ fun App() {
 
     var currentScreen by rememberSaveable { mutableStateOf("standards") }
     val beatEditorState = rememberBeatEditorState()
+    val audioImporter = remember { AudioImporter() }
+    val tileViewModel = remember { TileViewModel() }
 
 
     MaterialTheme {
@@ -78,7 +81,9 @@ fun App() {
 
                 MusicPadScreen(
                     state = beatEditorState,
-                    onNavigateBack = { currentScreen = "projects" }
+                    onNavigateBack = { currentScreen = "projects" },
+                    audioImporter = audioImporter,
+                    tileViewModel = tileViewModel
                 )
             }
         }
@@ -89,11 +94,12 @@ fun App() {
 @Composable
 fun MusicPadScreen(
     state: BeatEditorState,
-    onNavigateBack: () -> Unit
+    onNavigateBack: () -> Unit,
+    audioImporter: AudioImporter,
+    tileViewModel: TileViewModel
 ) {
 
-
-    val tileViewModel = remember { TileViewModel() }
+    var showAudioEditor by remember { mutableStateOf(false) }
 
     var isEditorMode by remember { mutableStateOf(false) }
 
@@ -112,6 +118,7 @@ fun MusicPadScreen(
     }
 
     val audioPlayer = remember { AudioPlayer() }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -153,7 +160,20 @@ fun MusicPadScreen(
                 BeatEditorScreen(
                     categories = tileViewModel.categories,
                     state = state,
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f),
+                    onTileLongPress = { instrumentIndex, stepIndex ->
+
+                        val category = tileViewModel.categories[instrumentIndex]
+                        val tile = category.tiles[stepIndex]
+                        selectedCategory = category.title
+                        selectedTile = tile
+
+                        if (tile.instrument.name == "piano") {
+                            showPianoEditor = true
+                        } else {
+                            showAudioEditor = true
+                        }
+                    }
                 )
             }
         }
@@ -168,35 +188,110 @@ fun MusicPadScreen(
 
         if (showBeatSelector && selectedTile != null) {
             Dialog(onDismissRequest = { showBeatSelector = false }) {
-                BeatSelector(
-                    beats = beats,
-                    audioPlayer = audioPlayer,
-                    onSaveToTile = { beat ->
-                        tileViewModel.assignBeat(
-                            selectedCategory!!,
-                            selectedTile!!.id,
-                            beat
-                        )
-                        showBeatSelector = false
-                    },
-                    onCreateNewTile = { beat ->
-                        tileViewModel.addTile(
-                            selectedCategory!!,
-                            selectedTile!!,
-                            beat
-                        )
-                        showBeatSelector = false
-                    },
-                    onDismiss = { showBeatSelector = false }
-                )
+
+                Column(
+                    modifier = Modifier
+                        .background(Color.White, RoundedCornerShape(12.dp))
+                        .padding(16.dp)
+                ) {
+
+                    BeatSelector(
+                        beats = beats,
+                        audioPlayer = audioPlayer,
+                        onSaveToTile = { beat ->
+                            tileViewModel.assignBeat(
+                                selectedCategory!!,
+                                selectedTile!!.id,
+                                beat
+                            )
+                            showBeatSelector = false
+                        },
+                        onCreateNewTile = { beat ->
+                            tileViewModel.addTile(
+                                selectedCategory!!,
+                                selectedTile!!,
+                                beat
+                            )
+                            showBeatSelector = false
+                        },
+
+                        onImportAudio = {
+                            audioImporter.pickAudio { path ->
+
+                                tileViewModel.assignBeat(
+                                    selectedCategory!!,
+                                    selectedTile!!.id,
+                                    Beat(
+                                        id = "imported",
+                                        name = "Imported Audio",
+                                        fileName = path
+                                    )
+                                )
+
+                                showBeatSelector = false
+                            }
+                        },
+
+                        onDismiss = { showBeatSelector = false }
+                    )
+
+                    Spacer(Modifier.height(16.dp))
+
+                    Text(
+                        "+ Import Audio",
+                        color = Color.Blue,
+                        modifier = Modifier.clickable {
+
+                            audioImporter.pickAudio { path ->
+
+                                tileViewModel.assignBeat(
+                                    selectedCategory!!,
+                                    selectedTile!!.id,
+                                    Beat(
+                                        id = "imported_${Clock.System.now().toEpochMilliseconds()}",
+                                        name = "Imported",
+                                        fileName = path
+                                    )
+                                )
+
+                                showBeatSelector = false
+                            }
+
+                        }
+                    )
+                }
             }
         }
+
 
         if (showPianoEditor && selectedTile != null) {
             Dialog(onDismissRequest = { showPianoEditor = false }) {
 
                 PianoRollEditor(
                     onClose = { showPianoEditor = false }
+                )
+            }
+        }
+
+        if (showAudioEditor && selectedTile != null) {
+            Dialog(onDismissRequest = { showAudioEditor = false }) {
+
+                AudioEditor(
+                    fileName = selectedTile!!.beat?.fileName
+                        ?: selectedTile!!.instrument.name,
+
+                    onClose = { showAudioEditor = false },
+
+                    onSave = { fileName ->
+
+                        tileViewModel.assignBeat(
+                            selectedCategory!!,
+                            selectedTile!!.id,
+                            Beat("edited", "Edited Beat", fileName)
+                        )
+
+                        showAudioEditor = false
+                    }
                 )
             }
         }

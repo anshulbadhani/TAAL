@@ -1,8 +1,10 @@
 package org.example.project
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -16,14 +18,21 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.painterResource
+import taal.composeapp.generated.resources.Res
+import taal.composeapp.generated.resources.drum
+import taal.composeapp.generated.resources.guitar
+import taal.composeapp.generated.resources.saxophone
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun BeatEditorScreen(
     categories: List<InstrumentCategory>,
     state: BeatEditorState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onTileLongPress: (Int, Int) -> Unit
 ) {
 
     val horizontalScroll = rememberScrollState()
@@ -117,13 +126,76 @@ fun BeatEditorScreen(
                                     else
                                         Color(0xFF555555)
                                 )
-                                .clickable {
-                                    state.toggle(instrumentIndex, stepIndex)
-                                }
+                                .combinedClickable(
+
+                                    onClick = {
+                                        state.toggle(instrumentIndex, stepIndex)
+                                    },
+
+                                    onLongClick = {
+                                            onTileLongPress(instrumentIndex, stepIndex)
+                                    }
+
+                                )
                         )
                     }
                 }
             }
         }
     }
+}
+
+@Preview
+@Composable
+fun BeatEditorScreenPreview() {
+
+    val instruments = listOf(
+        InstrumentCategory(
+            "Drums",
+            listOf(
+                Tile(
+                    id = 0,
+                    InstrumentType(
+                        name = "drum",
+                        color = Color.Red,
+                        iconRes = Res.drawable.drum
+                    )
+                )
+            )
+        ),
+        InstrumentCategory(
+            "Guitars",
+            listOf(
+                Tile(
+                    id = 1,
+                    InstrumentType(
+                        name = "guitar",
+                        color = Color(0xFFFF9800),
+                        iconRes = Res.drawable.guitar
+                    )
+                )
+            )
+        ),
+        InstrumentCategory(
+            "Sax",
+            listOf(
+                Tile(
+                    id = 2,
+                    InstrumentType(
+                        name = "sax",
+                        color = Color.Yellow,
+                        iconRes = Res.drawable.saxophone
+                    )
+                )
+            )
+        )
+    )
+
+    val state = rememberBeatEditorState()
+
+    BeatEditorScreen(
+        categories = instruments,
+        state = state,
+        onTileLongPress = { _, _ -> }
+    )
 }

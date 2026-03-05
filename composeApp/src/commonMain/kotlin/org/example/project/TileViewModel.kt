@@ -50,16 +50,27 @@ class TileViewModel {
     }
 
     fun assignBeat(categoryTitle: String, tileId: Int, beat: Beat) {
+
         categories = categories.map { category ->
-            if (category.title == categoryTitle) {
-                category.copy(
-                    tiles = category.tiles.map { tile ->
-                        if (tile.id == tileId)
-                            tile.copy(beat = beat)
-                        else tile
+
+            if (category.title != categoryTitle) {
+                category
+            } else {
+
+                val updatedTiles = category.tiles.map { tile ->
+
+                    if (tile.id == tileId) {
+                        tile.copy(
+                            beat = beat
+                        )
+                    } else {
+                        tile
                     }
-                )
-            } else category
+
+                }
+
+                category.copy(tiles = updatedTiles)
+            }
         }
     }
 

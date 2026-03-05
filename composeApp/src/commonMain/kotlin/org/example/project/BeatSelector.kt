@@ -33,7 +33,8 @@ fun BeatSelector(
     audioPlayer: AudioPlayer,
     onSaveToTile: (Beat) -> Unit,
     onCreateNewTile: (Beat) -> Unit,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
+    onImportAudio: () -> Unit
 ) {
     var selectedBeat by remember { mutableStateOf<Beat?>(null) }
 
@@ -81,6 +82,15 @@ fun BeatSelector(
                         Text(beat.name)
                     }
                 }
+            }
+
+            Spacer(Modifier.height(12.dp))
+
+            TextButton(
+                onClick = { onImportAudio() },
+                modifier = Modifier.align(Alignment.CenterHorizontally)
+            ) {
+                Text("+ Import Audio")
             }
 
             Spacer(Modifier.height(20.dp))
