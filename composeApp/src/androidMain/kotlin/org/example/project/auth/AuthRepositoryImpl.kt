@@ -16,7 +16,7 @@ class AuthRepositoryImpl(private val context: Context) : AuthRepository {
 
     val googleSignInClient by lazy {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken("YOUR_WEB_CLIENT_ID_FROM_GOOGLE_SERVICES_JSON")
+            .requestIdToken("464898087369-kga1alvnsrma2t3n9cadhj38rvcqv928.apps.googleusercontent.com")
             .requestEmail()
             .build()
         GoogleSignIn.getClient(context, gso)

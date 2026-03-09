@@ -151,7 +151,6 @@ class MockAuthRepository : AuthRepository {
     override suspend fun signUp(email: String, password: String): Result<Unit> = Result.success(Unit)
     override suspend fun signInWithGoogle(): Result<Unit> = Result.success(Unit)
 
-    // If you added this method earlier as we discussed:
     override suspend fun firebaseAuthWithGoogle(idToken: String): Result<Unit> = Result.success(Unit)
 
     override fun signOut() {}
@@ -161,7 +160,6 @@ class MockAuthRepository : AuthRepository {
 @Composable
 fun LoginSignupScreenPreview() {
     MaterialTheme {
-        // We use a Surface with a dark background to match your app's vibe
         Surface(color = Color(0xFF121212)) {
             LoginSignupScreen(
                 authRepository = MockAuthRepository(),
