@@ -39,7 +39,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.painterResource
-
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.Button
@@ -78,7 +77,6 @@ fun App(
     MaterialTheme {
         Surface(modifier = Modifier.fillMaxSize(), color = DarkBackground) {
             Box(Modifier.fillMaxSize()) {
-                // Unified screen navigation logic
                 when (currentScreen) {
                     "standards" -> {
                         StandardsScreen(
@@ -106,7 +104,6 @@ fun App(
                     }
                 }
 
-                // UI Overlay: Profile Icon
                 ProfileIcon(
                     modifier = Modifier
                         .align(Alignment.TopEnd)
@@ -116,7 +113,6 @@ fun App(
                     }
                 )
 
-                // Auth Dialog
                 if (showAuthScreen) {
                     Dialog(onDismissRequest = { showAuthScreen = false }) {
                         LoginSignupScreen(
@@ -230,7 +226,6 @@ fun MusicPadScreen(
             modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = 20.dp)
         )
 
-        // All Dialogs (BeatSelector, PianoEditor, DrumBeatEditor, AudioEditor) remain unchanged...
         if (showBeatSelector && selectedTile != null) {
             Dialog(onDismissRequest = { showBeatSelector = false }) {
                 Column(modifier = Modifier.background(Color.White, RoundedCornerShape(12.dp)).padding(16.dp)) {

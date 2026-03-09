@@ -4,10 +4,7 @@ interface AuthRepository {
     suspend fun signInWithEmail(email: String, password: String): Result<Unit>
     suspend fun signUp(email: String, password: String): Result<Unit>
     suspend fun signInWithGoogle(): Result<Unit>
-
-    // ADD THIS - Your implementation was failing because this was missing
     suspend fun firebaseAuthWithGoogle(idToken: String): Result<Unit>
-
     fun signOut()
     fun getCurrentUserId(): String?
 }

@@ -43,7 +43,7 @@ kotlin {
                 sourceSets {
                     val androidMain by getting {
                         dependencies {
-                            // ADD THIS LINE
+                            implementation("com.google.firebase:firebase-firestore-ktx:25.1.1")
                             implementation("com.google.android.gms:play-services-auth:21.0.0")
                             implementation("com.google.firebase:firebase-auth-ktx:23.0.0")
                         }
