@@ -87,14 +87,14 @@ After a final run of the desktop version of the app we will be able to give up o
 Welcome back to our devlog! Today focused on strengthening functionality, fixing cross-platform issues, and making the app more dynamic and stable. The progress made by each were:
 
 - [Ananya](https://github.com/ananyatiwari05) corrected the audio files for iOS, created the first two pages shown when the app starts, and linked all the pages together to complete the initial flow.
-- [Anshul](https://github.com/anshulbahadani) set up Android Studio and cloned the repository. The audio which previously played locally is now running through Media3. He also researched a low-latency C++ audio engine and created a demo to explore implementing it into the main app.
+- [Anshul](https://github.com/anshulbadhani) set up Android Studio and cloned the repository. The audio which previously played locally is now running through Media3. He also researched a low-latency C++ audio engine and created a demo to explore implementing it into the main app.
 - [Lavanya](https://github.com/Lavanya24R) cloned the repository, refined the UI, added features like a metronome, and fixed the toggle UI for smoother interaction.
 - [Tanishq](https://github.com/Tanishq172006) created the dialog box to add tiles, made the entire system dynamic, implemented save and create options, added toggle functionality, developed the second main page (canvas — beta version xD) where the main mixing will be done, and fixed desktop compatibility (now working smoothly).
 We are now moving from static structure to dynamic functionality across all platforms.
 
 ### For Tomorrow
 
-- [Anshul](https://github.com/anshulbahadani) will figure out the C++ low latency audio engine across all platforms and research how to implement a local database in CMP using Room.
+- [Anshul](https://github.com/anshulbadhani) will figure out the C++ low latency audio engine across all platforms and research how to implement a local database in CMP using Room.
 - [Ananya](https://github.com/ananyatiwari05) will research how to implement brush-like functionality similar to FL Studio (mainly on Android) and explore implementing a local database in CMP using Room.
 - [Lavanya](https://github.com/Lavanya24R) will research implementing a local database in CMP using Room and explore how waves can be implemented.
 - [Tanishq](https://github.com/Tanishq172006) will research wave implementation and continue improving the working of the second screen.
@@ -238,7 +238,7 @@ Good night fellers!!
 
 
 
-# Devlog #8
+## Devlog #8
 *08-03-2026* ~by [Tanishq Pandey](https://github.com/Tanishq172006)
 
 Another day full of debugging, version fixing and platform setup. Gradle decided to be our biggest enemy today, but progress was made and things are slowly getting stable.
@@ -279,3 +279,51 @@ For tomorrow:
     - Start creating the REST API for authentication.
 
     welp college started what else lavanya and ananya came back to hostel so we have now a chance for offline meets 🔥 , but now daily work will be way more fun and welp gradle 😢 kills me atm but i wont give up and we all will fight and comeback stronger 
+
+
+## Devlog #9
+*10-03-2026* ~by [Tanishq Pandey](https://github.com/Tanishq172006)
+
+Today was the first day of college after the Holi break. ANDDD we had our first offline meet today. We decided to meet after our classes, but we bumped into each other before that and were sooo excited to see everyone!
+
+Before the meeting we even went outside the campus and hung out together for a bit. IT WAS FUN!
+
+Now coming to the real stuff.
+
+The biggest achievement of the day: [Tanishq](https://github.com/Tanishq172006), after fighting with Gradle for two days straight, FINALLYYY fixed the Gradle issues.  
+(It was a single line of code. Bruh!)
+
+[Lavanya](https://www.github.com/Lavanya24R) made our cool logo while [Ananya](https://github.com/ananyatiwari05) and [Anshul](https://www.github.com/anshulbadhani) were suggesting different design ideas and improvements.
+
+[Ananya](https://github.com/ananyatiwari05) finally fixed the Firebase authentication issue and  
+[Anshul](https://www.github.com/anshulbadhani) continued exploring the **miniaudio API**.
+
+After coming back to our respective homes, we had another meet and did some more work.
+
+[Anshul](https://www.github.com/anshulbadhani) implemented a C function that takes the filepath of an audio file and plays the sound from the actual files instead of hardcoding them.
+
+[Lavanya](https://www.github.com/Lavanya24R) and [Tanishq](https://github.com/Tanishq172006) fixed the merge conflicts on the GitHub repositories.
+
+---
+
+### For tomorrow
+
+- [Anshul](https://www.github.com/anshulbadhani)
+    - Work further on the audio engine API.
+
+- [Ananya](https://github.com/ananyatiwari05)
+    - Implement `AuthRepositoryImpl` for iOS.
+    - Fix remaining dependency issues.
+
+- [Lavanya](https://www.github.com/Lavanya24R)
+    - Pull the latest changes.
+    - Start working on SQLDelight integration.
+
+- [Tanishq](https://github.com/Tanishq172006)
+    - Work on making other UIs for other tiles
+    - Continue UI improvements and debugging.
+    - Start working on DSP for realtime wave formation.
+    - fix pipelines for the importer.
+
+
+Today was a hectic yet fruitful day, we achieved alot today , learnt alot today and moving forward with our heads up high!! 🚀

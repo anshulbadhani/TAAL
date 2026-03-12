@@ -1,43 +1,39 @@
 package org.example.project.auth
-
 import android.content.Context
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.tasks.await
-import org.example.project.auth.AuthRepository
+import dev.gitlive.firebase.Firebase
+import dev.gitlive.firebase.auth.GoogleAuthProvider
+import dev.gitlive.firebase.auth.auth
+import dev.gitlive.firebase.firestore.firestore
 
 class AuthRepositoryImpl(private val context: Context) : AuthRepository {
-
-    private val auth: FirebaseAuth = FirebaseAuth.getInstance()
-    private val db = FirebaseFirestore.getInstance()
+    private val auth = Firebase.auth
+    private val db = Firebase.firestore
 
     val googleSignInClient by lazy {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken("464898087369-kga1alvnsrma2t3n9cadhj38rvcqv928.apps.googleusercontent.com")
+            .requestIdToken("464898087369-kga1alvnsrma2t3n9cadhj38rvcqv928.apps.googleusercontent.com") // Keep your ID here
             .requestEmail()
             .build()
         GoogleSignIn.getClient(context, gso)
     }
 
-    override suspend fun signInWithEmail(email: String, password: String): Result<Unit> = runCatching {
-        auth.signInWithEmailAndPassword(email, password).await()
+    override suspend fun signInWithEmail(email: String, password: String) = runCatching {
+        auth.signInWithEmailAndPassword(email, password)
         Unit
     }
 
-    override suspend fun signUp(email: String, password: String): Result<Unit> = runCatching {
-        val authResult = auth.createUserWithEmailAndPassword(email, password).await()
+    override suspend fun signUp(email: String, password: String) = runCatching {
+        val authResult = auth.createUserWithEmailAndPassword(email, password)
         val user = authResult.user
-
         if (user != null) {
             val userData = mapOf(
                 "uid" to user.uid,
                 "email" to email,
                 "createdAt" to System.currentTimeMillis()
             )
-            db.collection("users").document(user.uid).set(userData).await()
+            db.collection("users").document(user.uid).set(userData)
         }
         Unit
     }
@@ -46,9 +42,9 @@ class AuthRepositoryImpl(private val context: Context) : AuthRepository {
         return Result.failure(Exception("LAUNCH_GOOGLE_INTENT"))
     }
 
-    override suspend fun firebaseAuthWithGoogle(idToken: String): Result<Unit> = runCatching {
-        val credential = GoogleAuthProvider.getCredential(idToken, null)
-        val authResult = auth.signInWithCredential(credential).await()
+    override suspend fun firebaseAuthWithGoogle(idToken: String) = runCatching {
+        val credential = GoogleAuthProvider.credential(idToken, accessToken = null)
+        val authResult = auth.signInWithCredential(credential)
         val user = authResult.user
 
         if (user != null) {
@@ -58,12 +54,12 @@ class AuthRepositoryImpl(private val context: Context) : AuthRepository {
                 "displayName" to (user.displayName ?: ""),
                 "lastLogin" to System.currentTimeMillis()
             )
-            db.collection("users").document(user.uid).set(userData).await()
+            db.collection("users").document(user.uid).set(userData)
         }
         Unit
     }
 
-    override fun signOut() {
+    override suspend fun signOut() {
         auth.signOut()
     }
 
